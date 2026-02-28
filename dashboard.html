@@ -3,9 +3,7 @@
 <head>
 <title>Admin Dashboard - Sem 5</title>
 </head>
-
 <body>
-
 <h2>All Students Marks - Sem 5</h2>
 <button onclick="downloadCSV()">Download CSV</button>
 <br><br>
@@ -17,17 +15,11 @@
 <th>Percentage</th>
 </tr>
 </table>
-
-
 <script type="module">
-
 import { initializeApp } from 
 "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-
 import { getFirestore, collection, getDocs } from 
 "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
-
 const firebaseConfig = {
   apiKey: "AIzaSyAPx_dM4ixpnt7kVWZyQShxM9_IEqmt7NA",
   authDomain: "sem5-result.firebaseapp.com",
@@ -36,27 +28,39 @@ const firebaseConfig = {
   messagingSenderId: "841450794954",
   appId: "1:841450794954:web:f81b6d05ac22b4808d2933"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const querySnapshot = await getDocs(collection(db, "sem5"));
-
 querySnapshot.forEach((doc) => {
-
   let data = doc.data();
   let table = document.getElementById("table");
   let row = table.insertRow();
-
   row.insertCell(0).innerHTML = data.reg;
   row.insertCell(1).innerHTML = data.name;
   row.insertCell(2).innerHTML = data.total;
   row.insertCell(3).innerHTML = data.percent.toFixed(2) + "%";
-
 });
-
+window.downloadCSV = function() {
+let table = document.getElementById("table");
+let rows = table.querySelectorAll("tr");
+let csv = [];
+for (let i = 0; i < rows.length; i++) {
+    let cols = rows[i].querySelectorAll("td, th");
+    let row = [];
+    for (let j = 0; j < cols.length; j++) {
+        row.push(cols[j].innerText);
+    }
+    csv.push(row.join(","));
+}
+let csvFile = new Blob([csv.join("\n")], { type: "text/csv" });
+let downloadLink = document.createElement("a");
+downloadLink.download = "Sem5_Results.csv";
+downloadLink.href = window.URL.createObjectURL(csvFile);
+downloadLink.style.display = "none";
+document.body.appendChild(downloadLink);
+downloadLink.click();
+}
 </script>
-
 </body>
-
 </html>
+
