@@ -1,17 +1,12 @@
-<!DOCTYPE html>
 <html>
 <head>
 <title>Sem 5 - Student Marks Entry</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <h2>Sem 5 Marks Entry</h2>
-
 <input type="text" id="reg" placeholder="Register Number"><br><br>
 <input type="text" id="name" placeholder="Student Name"><br><br>
-
 <input type="number" id="m1" placeholder="300V5Q"><br><br>
 <input type="number" id="m2" placeholder="320C51"><br><br>
 <input type="number" id="m3" placeholder="320C5A"><br><br>
@@ -20,21 +15,15 @@
 <input type="number" id="m6" placeholder="320E5B"><br><br>
 <input type="number" id="m7" placeholder="320E5F"><br><br>
 <input type="number" id="m8" placeholder="NMU84"><br><br>
-
 <button onclick="saveData()">Submit</button>
-
 <h3 id="result"></h3>
-
-
 <script type="module">
-
 import { initializeApp } from 
 "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 
-import { getFirestore, collection, addDoc } from 
+import { getFirestore, doc, setDoc } from 
 "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
-
+  
 const firebaseConfig = {
   apiKey: "AIzaSyAPx_dM4ixpnt7kVWZyQShxM9_IEqmt7NA",
   authDomain: "sem5-result.firebaseapp.com",
@@ -65,12 +54,12 @@ window.saveData = async function() {
   let total = m1+m2+m3+m4+m5+m6+m7+m8;
   let percent = (total/800)*100;
 
-  await addDoc(collection(db, "sem5"), {
-    reg: reg,
-    name: name,
-    total: total,
-    percent: percent
-  });
+  await setDoc(doc(db, "sem5", reg), {
+  reg: reg,
+  name: name,
+  total: total,
+  percent: percent
+});
 
   document.getElementById("result").innerHTML =
   "Total = " + total + 
@@ -83,4 +72,5 @@ window.saveData = async function() {
 </script>
 
 </body>
+
 </html>
