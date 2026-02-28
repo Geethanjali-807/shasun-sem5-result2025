@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Dashboard - Sem 5</title>
+</head>
+
+<body>
+
+<h2>All Students Marks - Sem 5</h2>
+
+<table border="1" id="table">
+<tr>
+<th>Register No</th>
+<th>Name</th>
+<th>Total</th>
+<th>Percentage</th>
+</tr>
+</table>
+
+
+<script type="module">
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import { getFirestore, collection, getDocs } from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAPx_dM4ixpnt7kVWZyQShxM9_IEqmt7NA",
+  authDomain: "sem5-result.firebaseapp.com",
+  projectId: "sem5-result",
+  storageBucket: "sem5-result.firebasestorage.app",
+  messagingSenderId: "841450794954",
+  appId: "1:841450794954:web:f81b6d05ac22b4808d2933"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const querySnapshot = await getDocs(collection(db, "sem5"));
+
+querySnapshot.forEach((doc) => {
+
+  let data = doc.data();
+  let table = document.getElementById("table");
+  let row = table.insertRow();
+
+  row.insertCell(0).innerHTML = data.reg;
+  row.insertCell(1).innerHTML = data.name;
+  row.insertCell(2).innerHTML = data.total;
+  row.insertCell(3).innerHTML = data.percent.toFixed(2) + "%";
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sem 5 - Student Marks Entry</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h2>Sem 5 Marks Entry</h2>
+
+<input type="text" id="reg" placeholder="Register Number"><br><br>
+<input type="text" id="name" placeholder="Student Name"><br><br>
+
+<input type="number" id="m1" placeholder="300V5Q"><br><br>
+<input type="number" id="m2" placeholder="320C51"><br><br>
+<input type="number" id="m3" placeholder="320C5A"><br><br>
+<input type="number" id="m4" placeholder="320C5B"><br><br>
+<input type="number" id="m5" placeholder="320C5C"><br><br>
+<input type="number" id="m6" placeholder="320E5B"><br><br>
+<input type="number" id="m7" placeholder="320E5F"><br><br>
+<input type="number" id="m8" placeholder="NMU84"><br><br>
+
+<button onclick="saveData()">Submit</button>
+
+<h3 id="result"></h3>
+
+
+<script type="module">
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import { getFirestore, collection, addDoc } from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAPx_dM4ixpnt7kVWZyQShxM9_IEqmt7NA",
+  authDomain: "sem5-result.firebaseapp.com",
+  projectId: "sem5-result",
+  storageBucket: "sem5-result.firebasestorage.app",
+  messagingSenderId: "841450794954",
+  appId: "1:841450794954:web:f81b6d05ac22b4808d2933"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+window.saveData = async function() {
+
+  let reg = document.getElementById("reg").value;
+  let name = document.getElementById("name").value;
+
+  let m1 = Number(document.getElementById("m1").value);
+  let m2 = Number(document.getElementById("m2").value);
+  let m3 = Number(document.getElementById("m3").value);
+  let m4 = Number(document.getElementById("m4").value);
+  let m5 = Number(document.getElementById("m5").value);
+  let m6 = Number(document.getElementById("m6").value);
+  let m7 = Number(document.getElementById("m7").value);
+  let m8 = Number(document.getElementById("m8").value);
+
+  let total = m1+m2+m3+m4+m5+m6+m7+m8;
+  let percent = (total/800)*100;
+
+  await addDoc(collection(db, "sem5"), {
+    reg: reg,
+    name: name,
+    total: total,
+    percent: percent
+  });
+
+  document.getElementById("result").innerHTML =
+  "Total = " + total + 
+  " | Percentage = " + percent.toFixed(2) + "%";
+
+  alert("Data Saved Successfully!");
+
+}
+
+</script>
+
+</body>
+</html>
